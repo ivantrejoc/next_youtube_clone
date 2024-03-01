@@ -1,0 +1,47 @@
+version: '3.9'
+
+
+services:
+  frontend:
+    container_name: frontend
+    image: frontend
+    build: 
+      context: ./frontend
+      dockerfile: frontend.dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    restart: always
+    depends_on:
+      - youtube_backend
+
+  youtube_backend:
+    container_name: backend
+    build: 
+      context: ./backend
+      dockerfile: backend.dockerfile
+    links:
+      - youtubedb
+    ports:
+      - 3005:3001
+
+  youtubedb:
+    container_name: database
+    image: postgres
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_DB=$DB_NAME
+    ports:
+      - 5433:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
+
+  
