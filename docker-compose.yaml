@@ -11,7 +11,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NEXT_PUBLIC_API_URL=http://youtube_backend:3001
     restart: always
     depends_on:
       - youtube_backend
