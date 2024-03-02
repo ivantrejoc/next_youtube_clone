@@ -1,3 +1,4 @@
+const { json } = require("sequelize");
 const { User, Comment } = require("../DB_connection");
 
 //Crear User:
