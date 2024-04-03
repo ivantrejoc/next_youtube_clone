@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   createVideo,
   getVideos,
+  getVideosByName,
   bulkCreateVideos,
   getVideoById,
   getMostPopularVideos
@@ -37,10 +38,16 @@ router.post("/massive", async (req, res) => {
 
 //Obtener todos los videos:
 router.get("/", async (req, res) => {
+  const {name} = req.query;
+
   try {
-    const videos = await getVideos();
+    const videos = name
+    ? await getVideosByName(name)
+    : await getVideos();     
     console.log("ESTOY RESPONDIENDO AL GET DE TODOS LOS VIDEOS", videos);
-    res.status(200).json(videos);
+    videos.length > 0
+    ? res.status(200).json(videos)
+    : res.status(404).json("Video no existe")
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

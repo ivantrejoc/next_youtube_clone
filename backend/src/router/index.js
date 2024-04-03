@@ -17,7 +17,9 @@ router.use("/like", handlersLike);
 //Rutas de unlikes
 router.use("/unlike", handlersUnlike);
 //Rutas de videos
-router.use("/video", handlersVideos);
+router.use("/video/", handlersVideos);
+//Rutas de videos
+router.use("/video/name?=", handlersVideos);
 //Rutas de userVideos
 router.use("/uservideo", handlersUserVideo);
 

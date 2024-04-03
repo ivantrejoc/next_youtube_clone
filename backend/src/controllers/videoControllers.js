@@ -56,6 +56,28 @@ const getVideoById = async (id) => {
   }
 };
 
+//Videos por nombre
+const getVideosByName = async (name) => {
+  const formmatedName = name.toLowerCase();
+  try {
+    const videos = await Video.findAll({
+      where: sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('title')),
+        'LIKE',
+        `%${formmatedName}%`
+      ),
+      include: {
+        model: Comment,
+        attributes: ["name_user", "comment"] // Solo seleccionamos los atributos necesarios de los comentarios
+      }
+    });
+    console.log("RESPUESTA DE LA BDD: ", videos)
+    return videos;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 //5 Videos más populares
 const getMostPopularVideos = async () => {
   console.log("ESTOY ENTRANDO AL CONTROLLER");
@@ -91,6 +113,7 @@ module.exports = {
   createVideo,
   bulkCreateVideos,
   getVideos,
+  getVideosByName,
   getVideoById,
   getMostPopularVideos
 };
