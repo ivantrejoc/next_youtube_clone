@@ -15,6 +15,9 @@ services:
     restart: always
     depends_on:
       - youtube_backend
+    volumes:
+      - frontend_data:/var/lib/
+    
 
   youtube_backend:
     container_name: backend
@@ -25,6 +28,8 @@ services:
       - youtubedb
     ports:
       - 3005:3001
+    volumes:
+      - backend_data:/var/lib/
 
   youtubedb:
     container_name: database
@@ -42,6 +47,8 @@ services:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
+  frontend_data:
+  backend_data:
   pgdata: {}
 
   
